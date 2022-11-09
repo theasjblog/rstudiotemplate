@@ -1,0 +1,21 @@
+---
+title: "Sample Report"
+author: "Name Surname"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(templatedemo)
+library(kableExtra)
+```
+
+## A template report
+
+```{r cars}
+rawData <- getRawData()
+summaryData <- getSummaryData(rawData)
+kableExtra::kable(summaryData)
+```
+

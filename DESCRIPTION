@@ -1,4 +1,4 @@
-Package: rstudioProjectTemplate
+Package: rstudiotemplate
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
@@ -9,7 +9,7 @@ Description: More about what it does (maybe more than one line)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.2.1
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

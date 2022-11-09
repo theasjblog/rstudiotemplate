@@ -1,0 +1,8 @@
+default:
+  head_data: 5
+
+test:
+  head_data: 10
+
+production:
+  head_data: 15
