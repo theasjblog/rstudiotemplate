@@ -1,64 +1,6 @@
 #' @import fs
 NULL
 
-#' @title demoPath_sys
-#' @description return the path where the template is saved locally
-#' @param ... additional arguments
-#' @param lib.loc the path to the R library
-#' @param mustWork logical
-#' @return string
-demoPath_sys <- function (..., lib.loc = NULL, mustWork = FALSE){
-  system.file(..., package = "rstudiotemplate", lib.loc = lib.loc, mustWork = mustWork)
-}
-
-#' @title replace_word
-#' @description replace a pattern in a file
-#' @param file the path to the file
-#' @param pattern the pattern to be replaced
-#' @param replace the replacement
-#' @return Nothing. Overwrite the file
-replace_word <- function (file, pattern, replace){
-  suppressWarnings(tx <- readLines(file))
-  tx2 <- gsub(pattern = pattern, replacement = replace, x = tx)
-  writeLines(tx2, con = file)
-}
-
-#' @title addEnvToRenviron
-#' @description add a line to the .Renviron file of the new project to specify
-#' the active environment used by config
-#' @param chosenEnv string. The selected environment
-#' @return Nothing. Overwrite .Renviron
-addEnvToRenviron <- function(chosenEnv){
-  tx <- readLines('.Renviron')
-  tx <- c(tx, paste0('R_CONFIG_ACTIVE=',chosenEnv))
-  writeLines(tx, '.Renviron')
-}
-
-#' @title replace_package_name
-#' @description replace the generic reference to a template "templetedemo"
-#' with the actual name of the new project
-#' @param copied_files all the files to search for replacements (basename())
-#' @param package_name the new project name
-#' @param path the full root path of the copied_files
-#' @return Nothing. Overwrite files
-replace_package_name <- function(copied_files,
-                                 package_name,
-                                 path){
-  # Going through copied files to replace package name
-  for (f in copied_files) {
-    copied_file <- file.path(path, f)
-
-    try({
-        replace_word(
-          file = copied_file,
-          pattern = "templatedemo",
-          replace = package_name
-        )
-      },silent = TRUE)
-  }
-}
-
-
 #' @title create_rmarkdown_project
 #' @description Main function to create a new project. Triggered by the new
 #' project wizard. It's callback is at:
@@ -117,4 +59,61 @@ create_rmarkdown_project <- function(path, ...) {
 
   cat('All done')
 
+}
+
+#' @title demoPath_sys
+#' @description return the path where the template is saved locally
+#' @param ... additional arguments
+#' @param lib.loc the path to the R library
+#' @param mustWork logical
+#' @return string
+demoPath_sys <- function (..., lib.loc = NULL, mustWork = FALSE){
+  system.file(..., package = "rstudiotemplate", lib.loc = lib.loc, mustWork = mustWork)
+}
+
+#' @title replace_package_name
+#' @description replace the generic reference to a template "templetedemo"
+#' with the actual name of the new project
+#' @param copied_files all the files to search for replacements (basename())
+#' @param package_name the new project name
+#' @param path the full root path of the copied_files
+#' @return Nothing. Overwrite files
+replace_package_name <- function(copied_files,
+                                 package_name,
+                                 path){
+  # Going through copied files to replace package name
+  for (f in copied_files) {
+    copied_file <- file.path(path, f)
+
+    try({
+      replace_word(
+        file = copied_file,
+        pattern = "templatedemo",
+        replace = package_name
+      )
+    },silent = TRUE)
+  }
+}
+
+#' @title replace_word
+#' @description replace a pattern in a file
+#' @param file the path to the file
+#' @param pattern the pattern to be replaced
+#' @param replace the replacement
+#' @return Nothing. Overwrite the file
+replace_word <- function (file, pattern, replace){
+  suppressWarnings(tx <- readLines(file))
+  tx2 <- gsub(pattern = pattern, replacement = replace, x = tx)
+  writeLines(tx2, con = file)
+}
+
+#' @title addEnvToRenviron
+#' @description add a line to the .Renviron file of the new project to specify
+#' the active environment used by config
+#' @param chosenEnv string. The selected environment
+#' @return Nothing. Overwrite .Renviron
+addEnvToRenviron <- function(chosenEnv){
+  tx <- readLines('.Renviron')
+  tx <- c(tx, paste0('R_CONFIG_ACTIVE=',chosenEnv))
+  writeLines(tx, '.Renviron')
 }
